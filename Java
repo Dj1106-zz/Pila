@@ -1,24 +1,71 @@
-public class Nodo<T> {
-    private T dato;
-    private Nodo<T> siguiente;
+public class Pila<T> {
+    // Nodo interno de la pila
+    private static class Nodo<T> {
+        private T dato;
+        private Nodo<T> siguiente;
 
-    public Nodo() {
-        siguiente = null;
+        public Nodo(T dato) {
+            this.dato = dato;
+            this.siguiente = null;
+        }
     }
 
-    public void setDato(T dato) {
-        this.dato = dato;
+    private Nodo<T> cima;  // Representa la cima de la pila
+    private int tamano;    // Tamaño de la pila
+
+    public Pila() {
+        cima = null;
+        tamano = 0;
     }
 
-    public void setSiguiente(Nodo<T> siguiente) {
-        this.siguiente = siguiente;
+    // Verificar si la pila está vacía
+    public boolean isEmpty() {
+        return cima == null;
     }
 
-    public T getDato() {
+    // Insertar un elemento en la cima de la pila
+    public void push(T dato) {
+        Nodo<T> nuevoNodo = new Nodo<>(dato);
+        nuevoNodo.siguiente = cima;
+        cima = nuevoNodo;
+        tamano++;
+    }
+
+    // Remover y devolver el elemento en la cima de la pila
+    public T pop() {
+        if (isEmpty()) {
+            return null;  // Pila vacía, retorna null
+        }
+        T dato = cima.dato;
+        cima = cima.siguiente;
+        tamano--;
         return dato;
     }
 
-    public Nodo<T> getSiguiente() {
-        return siguiente;
+    // Devolver el elemento en la cima sin removerlo
+    public T peek() {
+        if (isEmpty()) {
+            return null;  // Pila vacía, retorna null
+        }
+        return cima.dato;
+    }
+
+    // Obtener el tamaño de la pila
+    public int size() {
+        return tamano;
+    }
+
+    // Método de prueba para la pila
+    public static void main(String[] args) {
+        Pila<Integer> pila = new Pila<>();
+        pila.push(10);
+        pila.push(20);
+        pila.push(30);
+        
+        System.out.println("Tamaño: " + pila.size());  // Debería imprimir 3
+        System.out.println("Elemento en la cima: " + pila.peek());  // Debería imprimir 30
+
+        System.out.println("Elemento removido: " + pila.pop());  // Debería imprimir 30
+        System.out.println("Tamaño después de pop: " + pila.size());  // Debería imprimir 2
     }
 }
